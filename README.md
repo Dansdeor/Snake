@@ -1,1 +1,1 @@
-Snake
+Snake game written in java
