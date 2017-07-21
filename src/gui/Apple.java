@@ -6,7 +6,7 @@ class Apple extends Rect {
     private boolean eaten;
 
     public Apple() {
-        eaten = true;//just for now
+        eaten = true;
     }
 
     public boolean isEaten() {

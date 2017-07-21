@@ -15,7 +15,7 @@ class Snake {
         dir = new Direction();
     }
 
-    public void draw(Graphics g, Game game) {
+    public void draw(Graphics g) {
         Rect Node = GetHead();
         old_x = Node.x;
         old_y = Node.y;

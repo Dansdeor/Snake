@@ -8,7 +8,6 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 
 class Game extends JPanel {
-    private int border = 460;
     Snake snake;
     Apple apple;
     Timer timer;
@@ -36,10 +35,10 @@ class Game extends JPanel {
     private void CreateApple(Graphics g) {
         if (apple.isEaten()) {
             Random rand = new Random();
-            apple.x = rand.nextInt(49) * 10;
-            apple.y = rand.nextInt(47) * 10;
+            apple.x = rand.nextInt(getWidth() / 10) * 10;
+            apple.y = rand.nextInt(getHeight() / 10) * 10;
         }
-        apple.setEaten(false);//just for now
+        apple.setEaten(false);
         apple.draw(g);
     }
 
@@ -49,15 +48,16 @@ class Game extends JPanel {
         if (timer.isRunning()) {
             Rect head = snake.GetHead();
 
-            if (head.y < 0 || head.y > border || head.x < 0 || head.x > border + 30)
-                this.Stop();
-
             if (head.x + 10 * snake.dir.x == apple.x && head.y + 10 * snake.dir.y == apple.y) {
                 apple.setEaten(true);
                 snake.Grow();
             }
 
-            snake.draw(g, this);
+            snake.draw(g);
+
+            if (head.y == -10 || head.y == getHeight() - 1 || head.x == -10 || head.x == getWidth() + 1)
+                this.Stop();
+
             for (int i = 0; i < getWidth(); i += 10) {
                 g.drawLine(i, 0, i, getHeight());
                 g.drawLine(0, i, getWidth(), i);
@@ -69,11 +69,13 @@ class Game extends JPanel {
 
 public class Main {
 
+    private static int SIZE = 500;
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("Snake");
         Game game = new Game();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(505, 500);
+        frame.setSize(SIZE + 5, SIZE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -83,6 +85,7 @@ public class Main {
             public void keyTyped(KeyEvent e) {
 
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_W)
@@ -94,6 +97,7 @@ public class Main {
                 if (e.getKeyCode() == KeyEvent.VK_A)
                     game.SetDir(-1, 0);
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
 
